@@ -305,7 +305,7 @@ export default function Landing() {
                 <li><span className="cross">—</span> Auto-reminder H+1, H+3, H+7</li>
                 <li><span className="cross">—</span> Auto-confirm pembayaran</li>
               </ul>
-              <button className="price-btn free" onClick={() => document.getElementById('cta')?.scrollIntoView({ behavior: 'smooth' })}>Mulai Gratis</button>
+              <button className="price-btn free" onClick={() => window.location.href = 'https://app.tagiin.id/login?plan=free'}>Mulai Gratis</button>
             </div>
 
             {/* PRO */}
@@ -324,7 +324,7 @@ export default function Landing() {
                 <li><span className="check">✓</span> Logo & brand kustom</li>
                 <li><span className="check">✓</span> Priority support</li>
               </ul>
-              <button className="price-btn pro" onClick={() => document.getElementById('cta')?.scrollIntoView({ behavior: 'smooth' })}>Coba Pro Gratis 14 Hari</button>
+              <button className="price-btn pro" onClick={() => window.location.href = 'https://app.tagiin.id/login?plan=pro_plus'}>Mulai Pro+</button>
             </div>
           </div>
         </div>
