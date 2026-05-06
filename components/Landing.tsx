@@ -301,7 +301,7 @@ export default function Landing() {
             <h2>Mulai <em>gratis,</em> upgrade kalau butuh.</h2>
             <p>Ngga ada biaya tersembunyi. Ngga ada kontrak. Bayar bulanan, cancel kapan aja.</p>
           </div>
-          <div className="pricing-grid">
+          <div className="pricing-grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)', maxWidth: '1100px' }}>
             {/* FREE */}
             <div className="price-card">
               <span className="price-label free">FREE</span>
@@ -313,28 +313,51 @@ export default function Landing() {
                 <li><span className="check">✓</span> QRIS statis + info rekening</li>
                 <li><span className="check">✓</span> 1× manual reminder per invoice</li>
                 <li><span className="check">✓</span> Database 10 klien</li>
-                <li><span className="check">✓</span> Download PDF invoice</li>
-                <li><span className="cross">—</span> Dynamic QRIS (auto-fill nominal)</li>
+                <li><span className="cross">—</span> Dynamic QRIS</li>
                 <li><span className="cross">—</span> Auto-reminder H+1, H+3, H+7</li>
                 <li><span className="cross">—</span> Auto-confirm pembayaran</li>
               </ul>
               <button className="price-btn free" onClick={() => window.location.href = 'https://app.tagiin.id/login?plan=free'}>Mulai Gratis</button>
             </div>
-            {/* PRO+ */}
-            <div className="price-card featured">
-              <span className="price-label pro">PRO+ — REKOMENDASI</span>
-              <div className="price"><span className="currency">Rp</span>39rb</div>
-              <div className="price-sub">per bulan · bisa cancel kapan aja</div>
+
+            {/* PRO FLEX */}
+            <div className="price-card">
+              <span className="price-label pro" style={{ background: '#f4a261' }}>PRO FLEX</span>
+              <div className="price" style={{ fontSize: '40px' }}>3.5%</div>
+              <div className="price-sub">per transaksi · tanpa biaya bulanan</div>
               <ul className="price-features">
                 <li><span className="check">✓</span> <strong>Unlimited</strong> invoice</li>
                 <li><span className="check">✓</span> Kirim via WhatsApp (gambar)</li>
-                <li><span className="check">✓</span> <strong>Dynamic QRIS</strong> (nominal auto-fill)</li>
+                <li><span className="check">✓</span> <strong>Dynamic QRIS</strong></li>
                 <li><span className="check">✓</span> <strong>Auto-reminder</strong> H+1, H+3, H+7</li>
                 <li><span className="check">✓</span> <strong>Auto-confirm</strong> pembayaran</li>
                 <li><span className="check">✓</span> Unlimited klien</li>
-                <li><span className="check">✓</span> Tanpa watermark di gambar</li>
-                <li><span className="check">✓</span> Logo & brand kustom</li>
-                <li><span className="check">✓</span> Priority support</li>
+                <li><span className="check">✓</span> Tanpa watermark</li>
+                <li><span className="cross">—</span> Fee lebih rendah (Pro+)</li>
+              </ul>
+              <button
+                className="price-btn free"
+                style={{ background: '#f4a261', color: 'white', border: 'none' }}
+                onClick={() => window.location.href = 'https://app.tagiin.id/login?plan=pro_flex'}
+              >
+                Mulai Pro Flex
+              </button>
+            </div>
+
+            {/* PRO+ */}
+            <div className="price-card featured">
+              <span className="price-label pro">PRO+ — TERBAIK</span>
+              <div className="price"><span className="currency">Rp</span>39rb</div>
+              <div className="price-sub">per bulan + fee 3% per transaksi</div>
+              <ul className="price-features">
+                <li><span className="check">✓</span> <strong>Unlimited</strong> invoice</li>
+                <li><span className="check">✓</span> Kirim via WhatsApp (gambar)</li>
+                <li><span className="check">✓</span> <strong>Dynamic QRIS</strong></li>
+                <li><span className="check">✓</span> <strong>Auto-reminder</strong> H+1, H+3, H+7</li>
+                <li><span className="check">✓</span> <strong>Auto-confirm</strong> pembayaran</li>
+                <li><span className="check">✓</span> Unlimited klien</li>
+                <li><span className="check">✓</span> Tanpa watermark</li>
+                <li><span className="check">✓</span> <strong>Fee lebih rendah</strong> (3% vs 3.5%)</li>
               </ul>
               <button className="price-btn pro" onClick={() => window.location.href = 'https://app.tagiin.id/login?plan=pro_plus'}>Mulai Pro+</button>
             </div>
@@ -362,7 +385,7 @@ export default function Landing() {
                 <span>Berapa biaya transaksi QRIS?</span>
                 <span className="faq-toggle">+</span>
               </div>
-              <div className="faq-a">Free plan: 0% (pakai QRIS statis kamu sendiri). Pro+ plan: fee 3% per transaksi sukses. Kamu hanya bayar saat ada pembayaran masuk.</div>
+              <div className="faq-a">Free plan: 0% (pakai QRIS statis kamu sendiri). Pro Flex: 3.5% per transaksi. Pro+: 3% per transaksi + Rp 39rb/bulan. Kamu hanya bayar saat ada pembayaran masuk.</div>
             </div>
             <div className="faq-item" onClick={toggleFaq}>
               <div className="faq-q">
@@ -414,6 +437,20 @@ export default function Landing() {
             }}
           >
             Mulai Gratis
+          </a>
+          
+            href="https://app.tagiin.id/login?plan=pro_flex"
+            style={{
+              textDecoration: 'none',
+              padding: '16px 36px',
+              background: '#f4a261',
+              color: 'white',
+              borderRadius: '100px',
+              fontSize: '16px',
+              fontWeight: 500,
+            }}
+          >
+            Mulai Pro Flex
           </a>
           
             href="https://app.tagiin.id/login?plan=pro_plus"
