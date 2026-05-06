@@ -8,7 +8,7 @@ export default function Landing() {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [message, setMessage] = useState('')
 
-  async function handleSubmit(e: React.FormEvent, source: string) {
+  async function handleWaitlist(e: React.FormEvent) {
     e.preventDefault()
     if (!email || !email.includes('@')) {
       setStatus('error')
@@ -16,28 +16,22 @@ export default function Landing() {
       setTimeout(() => setStatus('idle'), 3000)
       return
     }
-
     setStatus('loading')
-
     try {
       const { error } = await supabase.from('waitlist').insert({
         email: email.toLowerCase().trim(),
-        source,
+        source: 'landing_footer',
         referrer: typeof document !== 'undefined' ? document.referrer || null : null,
       })
-
       if (error) {
         if (error.code === '23505') {
           setStatus('success')
-          setMessage('Kamu sudah terdaftar di waitlist 🎉')
-        } else {
-          throw error
-        }
+          setMessage('Kamu sudah terdaftar 🎉')
+        } else throw error
       } else {
         setStatus('success')
         setMessage('Berhasil! Kami akan kabari ya 🙏')
       }
-
       setEmail('')
       setTimeout(() => setStatus('idle'), 4000)
     } catch (err) {
@@ -64,7 +58,7 @@ export default function Landing() {
             <a href="#pricing">Harga</a>
             <a href="#faq">FAQ</a>
           </div>
-          <a href="#cta" className="nav-cta">Daftar Waitlist</a>
+          <a href="https://app.tagiin.id/login" className="nav-cta">Masuk / Daftar</a>
         </div>
       </nav>
 
@@ -75,7 +69,7 @@ export default function Landing() {
             <div>
               <div className="eyebrow">
                 <span className="dot"></span>
-                SEGERA HADIR · 2026
+                SUDAH LIVE · 2026
               </div>
               <h1>
                 Tagih <em>lebih mudah,</em><br />
@@ -85,19 +79,42 @@ export default function Landing() {
                 Invoice profesional, reminder WhatsApp otomatis, pembayaran QRIS — semua dalam satu aplikasi. Dibuat untuk freelancer & UMKM Indonesia.
               </p>
 
-              <form className="waitlist" onSubmit={(e) => handleSubmit(e, 'landing_hero')}>
-                <input
-                  type="email"
-                  placeholder="email@kamu.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  disabled={status === 'loading'}
-                />
-                <button type="submit" disabled={status === 'loading'}>
-                  {status === 'loading' ? 'Proses...' : 'Daftar Gratis'}
-                </button>
-              </form>
+              <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '24px' }}>
+                
+                  href="https://app.tagiin.id/login?plan=free"
+                  style={{
+                    textDecoration: 'none',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '14px 28px',
+                    background: '#1a1814',
+                    color: '#faf7f2',
+                    borderRadius: '100px',
+                    fontSize: '15px',
+                    fontWeight: 500,
+                  }}
+                >
+                  Mulai Gratis
+                </a>
+                
+                  href="https://app.tagiin.id/login?plan=pro_plus"
+                  style={{
+                    textDecoration: 'none',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '14px 28px',
+                    background: '#d4471f',
+                    color: 'white',
+                    borderRadius: '100px',
+                    fontSize: '15px',
+                    fontWeight: 500,
+                  }}
+                >
+                  Coba Pro+
+                </a>
+              </div>
 
               <div className="social-proof">
                 <div className="avatars">
@@ -106,7 +123,7 @@ export default function Landing() {
                   <span>CS</span>
                   <span>+47</span>
                 </div>
-                <span>50+ freelancer sudah daftar waitlist</span>
+                <span>50+ freelancer sudah pakai Tagiin</span>
               </div>
             </div>
 
@@ -191,7 +208,6 @@ export default function Landing() {
             <h2>Invoice kirim, tapi <em>kapan dibayarnya?</em></h2>
             <p>Freelancer dan UMKM Indonesia kehilangan ratusan jam setiap bulan buat ngejar pembayaran. Tagiin bikin itu otomatis.</p>
           </div>
-
           <div className="problem-grid">
             <div className="problem-card">
               <div className="num">01</div>
@@ -220,7 +236,6 @@ export default function Landing() {
             <h2>Semua yang kamu butuh, <em>nggak lebih.</em></h2>
             <p>Fokus pada fitur inti yang bikin perbedaan besar — bukan fitur yang cuma bikin bingung.</p>
           </div>
-
           <div className="feature-grid">
             <div className="feature-card wide">
               <div className="icon">📱</div>
@@ -258,7 +273,6 @@ export default function Landing() {
             <div className="kicker">CARA KERJA</div>
             <h2>Dari tagih ke dibayar <em>— 3 langkah.</em></h2>
           </div>
-
           <div className="steps">
             <div className="step">
               <div className="num">1</div>
@@ -287,7 +301,6 @@ export default function Landing() {
             <h2>Mulai <em>gratis,</em> upgrade kalau butuh.</h2>
             <p>Ngga ada biaya tersembunyi. Ngga ada kontrak. Bayar bulanan, cancel kapan aja.</p>
           </div>
-
           <div className="pricing-grid">
             {/* FREE */}
             <div className="price-card">
@@ -307,10 +320,9 @@ export default function Landing() {
               </ul>
               <button className="price-btn free" onClick={() => window.location.href = 'https://app.tagiin.id/login?plan=free'}>Mulai Gratis</button>
             </div>
-
-            {/* PRO */}
+            {/* PRO+ */}
             <div className="price-card featured">
-              <span className="price-label pro">PRO — REKOMENDASI</span>
+              <span className="price-label pro">PRO+ — REKOMENDASI</span>
               <div className="price"><span className="currency">Rp</span>39rb</div>
               <div className="price-sub">per bulan · bisa cancel kapan aja</div>
               <ul className="price-features">
@@ -337,7 +349,6 @@ export default function Landing() {
             <div className="kicker">PERTANYAAN UMUM</div>
             <h2>Hal-hal yang <em>sering ditanya.</em></h2>
           </div>
-
           <div className="faq-list">
             <div className="faq-item" onClick={toggleFaq}>
               <div className="faq-q">
@@ -351,7 +362,7 @@ export default function Landing() {
                 <span>Berapa biaya transaksi QRIS?</span>
                 <span className="faq-toggle">+</span>
               </div>
-              <div className="faq-a">Free plan: 0% (pakai QRIS statis kamu sendiri). Pro plan: 0.7% per transaksi sukses — standar MDR QRIS dari Bank Indonesia. Kamu hanya bayar saat ada pembayaran masuk.</div>
+              <div className="faq-a">Free plan: 0% (pakai QRIS statis kamu sendiri). Pro+ plan: fee 3% per transaksi sukses. Kamu hanya bayar saat ada pembayaran masuk.</div>
             </div>
             <div className="faq-item" onClick={toggleFaq}>
               <div className="faq-q">
@@ -365,14 +376,14 @@ export default function Landing() {
                 <span>Aman nggak kalau kirim invoice via WhatsApp?</span>
                 <span className="faq-toggle">+</span>
               </div>
-              <div className="faq-a">Sangat aman. Tagiin kirim invoice sebagai gambar (bukan link), sehingga klien nggak perlu khawatir phishing. Pembayaran via QRIS resmi yang tidak bisa dipalsukan, dan kami pakai Kirimi.id sebagai WhatsApp gateway resmi.</div>
+              <div className="faq-a">Sangat aman. Tagiin kirim invoice sebagai gambar (bukan link), sehingga klien nggak perlu khawatir phishing. Pembayaran via QRIS resmi yang tidak bisa dipalsukan.</div>
             </div>
             <div className="faq-item" onClick={toggleFaq}>
               <div className="faq-q">
                 <span>Kapan bisa mulai pakai?</span>
                 <span className="faq-toggle">+</span>
               </div>
-              <div className="faq-a">Kami sedang dalam fase beta terbatas. Daftar waitlist sekarang — early user dapat akses Pro gratis 3 bulan + lifetime discount 30%.</div>
+              <div className="faq-a">Sekarang! Daftar langsung di app.tagiin.id — gratis tanpa kartu kredit.</div>
             </div>
             <div className="faq-item" onClick={toggleFaq}>
               <div className="faq-q">
@@ -388,20 +399,37 @@ export default function Landing() {
       {/* FINAL CTA */}
       <section className="cta-section" id="cta">
         <h2>Siap <em>berhenti nagih</em><br />dan mulai dibayar?</h2>
-        <p>Daftar waitlist — dapat akses early + Pro gratis 3 bulan sebagai bonus.</p>
-        <form className="waitlist" onSubmit={(e) => handleSubmit(e, 'landing_cta')}>
-          <input
-            type="email"
-            placeholder="email@kamu.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            disabled={status === 'loading'}
-          />
-          <button type="submit" disabled={status === 'loading'}>
-            {status === 'loading' ? 'Proses...' : 'Daftar Waitlist'}
-          </button>
-        </form>
+        <p>Mulai gratis sekarang, upgrade kapan aja.</p>
+        <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap', position: 'relative' }}>
+          
+            href="https://app.tagiin.id/login?plan=free"
+            style={{
+              textDecoration: 'none',
+              padding: '16px 36px',
+              background: 'white',
+              color: '#1a1814',
+              borderRadius: '100px',
+              fontSize: '16px',
+              fontWeight: 500,
+            }}
+          >
+            Mulai Gratis
+          </a>
+          
+            href="https://app.tagiin.id/login?plan=pro_plus"
+            style={{
+              textDecoration: 'none',
+              padding: '16px 36px',
+              background: '#d4471f',
+              color: 'white',
+              borderRadius: '100px',
+              fontSize: '16px',
+              fontWeight: 500,
+            }}
+          >
+            Mulai Pro+
+          </a>
+        </div>
       </section>
 
       {/* FOOTER */}
@@ -412,7 +440,7 @@ export default function Landing() {
             <a href="#">Tentang</a>
             <a href="#">Privasi</a>
             <a href="#">Syarat</a>
-            <a href="mailto:hi@tagiin.app">Kontak</a>
+            <a href="mailto:hi@tagiin.id">Kontak</a>
           </div>
           <div className="footer-copy">© 2026 TAGIIN · MADE IN INDONESIA 🇮🇩</div>
         </div>
@@ -420,23 +448,21 @@ export default function Landing() {
 
       {/* Toast */}
       {status !== 'idle' && status !== 'loading' && (
-        <div
-          style={{
-            position: 'fixed',
-            bottom: '24px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            background: status === 'success' ? '#2f7a4f' : '#d4471f',
-            color: 'white',
-            padding: '14px 22px',
-            borderRadius: '12px',
-            zIndex: 1000,
-            fontSize: '14px',
-            fontWeight: 500,
-            boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
-            maxWidth: 'calc(100vw - 48px)',
-          }}
-        >
+        <div style={{
+          position: 'fixed',
+          bottom: '24px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          background: status === 'success' ? '#2f7a4f' : '#d4471f',
+          color: 'white',
+          padding: '14px 22px',
+          borderRadius: '12px',
+          zIndex: 1000,
+          fontSize: '14px',
+          fontWeight: 500,
+          boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
+          maxWidth: 'calc(100vw - 48px)',
+        }}>
           {message}
         </div>
       )}
