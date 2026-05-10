@@ -793,3 +793,13 @@
     font-family: 'Geist Mono', monospace;
     letter-spacing: 0.02em;
   }
+  @media (max-width: 768px) {
+  .pricing-grid {
+    grid-template-columns: 1fr !important;
+    max-width: 100% !important;
+  }
+
+  .price-card.featured {
+    transform: none !important;
+  }
+}
