@@ -4,43 +4,8 @@ import { useState } from 'react'
 import { supabase } from '@/lib/supabase'
 
 export default function Landing() {
-  const [email, setEmail] = useState('')
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [message, setMessage] = useState('')
-
-  async function handleWaitlist(e: React.FormEvent) {
-    e.preventDefault()
-    if (!email || !email.includes('@')) {
-      setStatus('error')
-      setMessage('Email tidak valid')
-      setTimeout(() => setStatus('idle'), 3000)
-      return
-    }
-    setStatus('loading')
-    try {
-      const { error } = await supabase.from('waitlist').insert({
-        email: email.toLowerCase().trim(),
-        source: 'landing_footer',
-        referrer: typeof document !== 'undefined' ? document.referrer || null : null,
-      })
-      if (error) {
-        if (error.code === '23505') {
-          setStatus('success')
-          setMessage('Kamu sudah terdaftar 🎉')
-        } else throw error
-      } else {
-        setStatus('success')
-        setMessage('Berhasil! Kami akan kabari ya 🙏')
-      }
-      setEmail('')
-      setTimeout(() => setStatus('idle'), 4000)
-    } catch (err) {
-      setStatus('error')
-      setMessage('Ada kendala. Coba lagi sebentar.')
-      setTimeout(() => setStatus('idle'), 4000)
-      console.error(err)
-    }
-  }
 
   function toggleFaq(e: React.MouseEvent<HTMLDivElement>) {
     e.currentTarget.classList.toggle('open')
@@ -78,44 +43,10 @@ export default function Landing() {
               <p className="sub">
                 Invoice profesional, reminder WhatsApp otomatis, pembayaran QRIS — semua dalam satu aplikasi. Dibuat untuk freelancer & UMKM Indonesia.
               </p>
-
               <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '24px' }}>
-                
-                  href="https://app.tagiin.id/login?plan=free"
-                  style={{
-                    textDecoration: 'none',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: '14px 28px',
-                    background: '#1a1814',
-                    color: '#faf7f2',
-                    borderRadius: '100px',
-                    fontSize: '15px',
-                    fontWeight: 500,
-                  }}
-                >
-                  Mulai Gratis
-                </a>
-                
-                  href="https://app.tagiin.id/login?plan=pro_plus"
-                  style={{
-                    textDecoration: 'none',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    padding: '14px 28px',
-                    background: '#d4471f',
-                    color: 'white',
-                    borderRadius: '100px',
-                    fontSize: '15px',
-                    fontWeight: 500,
-                  }}
-                >
-                  Coba Pro+
-                </a>
+                <a href="https://app.tagiin.id/login?plan=free" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '14px 28px', background: '#1a1814', color: '#faf7f2', borderRadius: '100px', fontSize: '15px', fontWeight: 500 }}>Mulai Gratis</a>
+                <a href="https://app.tagiin.id/login?plan=pro_plus" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '14px 28px', background: '#d4471f', color: 'white', borderRadius: '100px', fontSize: '15px', fontWeight: 500 }}>Coba Pro+</a>
               </div>
-
               <div className="social-proof">
                 <div className="avatars">
                   <span>AR</span>
@@ -126,7 +57,6 @@ export default function Landing() {
                 <span>50+ freelancer sudah pakai Tagiin</span>
               </div>
             </div>
-
             <div className="hero-visual">
               <div className="hero-phone">
                 <div className="hero-phone-screen">
@@ -302,7 +232,6 @@ export default function Landing() {
             <p>Ngga ada biaya tersembunyi. Ngga ada kontrak. Bayar bulanan, cancel kapan aja.</p>
           </div>
           <div className="pricing-grid" style={{ gridTemplateColumns: 'repeat(3, 1fr)', maxWidth: '1100px' }}>
-            {/* FREE */}
             <div className="price-card">
               <span className="price-label free">FREE</span>
               <div className="price"><span className="currency">Rp</span>0</div>
@@ -319,8 +248,6 @@ export default function Landing() {
               </ul>
               <button className="price-btn free" onClick={() => window.location.href = 'https://app.tagiin.id/login?plan=free'}>Mulai Gratis</button>
             </div>
-
-            {/* PRO FLEX */}
             <div className="price-card">
               <span className="price-label pro" style={{ background: '#f4a261' }}>PRO FLEX</span>
               <div className="price" style={{ fontSize: '40px' }}>3.5%</div>
@@ -335,16 +262,8 @@ export default function Landing() {
                 <li><span className="check">✓</span> Tanpa watermark</li>
                 <li><span className="cross">—</span> Fee lebih rendah (Pro+)</li>
               </ul>
-              <button
-                className="price-btn free"
-                style={{ background: '#f4a261', color: 'white', border: 'none' }}
-                onClick={() => window.location.href = 'https://app.tagiin.id/login?plan=pro_flex'}
-              >
-                Mulai Pro Flex
-              </button>
+              <button className="price-btn free" style={{ background: '#f4a261', color: 'white', border: 'none' }} onClick={() => window.location.href = 'https://app.tagiin.id/login?plan=pro_flex'}>Mulai Pro Flex</button>
             </div>
-
-            {/* PRO+ */}
             <div className="price-card featured">
               <span className="price-label pro">PRO+ — TERBAIK</span>
               <div className="price"><span className="currency">Rp</span>39rb</div>
@@ -374,45 +293,27 @@ export default function Landing() {
           </div>
           <div className="faq-list">
             <div className="faq-item" onClick={toggleFaq}>
-              <div className="faq-q">
-                <span>Apakah dana pelanggan masuk ke rekening saya langsung?</span>
-                <span className="faq-toggle">+</span>
-              </div>
+              <div className="faq-q"><span>Apakah dana pelanggan masuk ke rekening saya langsung?</span><span className="faq-toggle">+</span></div>
               <div className="faq-a">Ya. Tagiin bukan wallet — kami nggak menahan uang kamu. Dana dari QRIS langsung settle ke rekening merchant kamu via gateway pembayaran resmi (Bank Indonesia compliant).</div>
             </div>
             <div className="faq-item" onClick={toggleFaq}>
-              <div className="faq-q">
-                <span>Berapa biaya transaksi QRIS?</span>
-                <span className="faq-toggle">+</span>
-              </div>
-              <div className="faq-a">Free plan: 0% (pakai QRIS statis kamu sendiri). Pro Flex: 3.5% per transaksi. Pro+: 3% per transaksi + Rp 39rb/bulan. Kamu hanya bayar saat ada pembayaran masuk.</div>
+              <div className="faq-q"><span>Berapa biaya transaksi QRIS?</span><span className="faq-toggle">+</span></div>
+              <div className="faq-a">Free plan: 0% (pakai QRIS statis kamu sendiri). Pro Flex: 3.5% per transaksi. Pro+: 3% per transaksi + Rp 39rb/bulan.</div>
             </div>
             <div className="faq-item" onClick={toggleFaq}>
-              <div className="faq-q">
-                <span>Apakah klien saya perlu install aplikasi Tagiin?</span>
-                <span className="faq-toggle">+</span>
-              </div>
-              <div className="faq-a">Tidak. Klien terima invoice sebagai gambar di WhatsApp — tinggal scan QRIS-nya dari gambar pakai app pembayaran yang biasa mereka pakai (GoPay, OVO, DANA, mobile banking, dll). Nggak perlu klik link apapun.</div>
+              <div className="faq-q"><span>Apakah klien saya perlu install aplikasi Tagiin?</span><span className="faq-toggle">+</span></div>
+              <div className="faq-a">Tidak. Klien terima invoice sebagai gambar di WhatsApp — tinggal scan QRIS-nya dari gambar pakai app pembayaran yang biasa mereka pakai. Nggak perlu klik link apapun.</div>
             </div>
             <div className="faq-item" onClick={toggleFaq}>
-              <div className="faq-q">
-                <span>Aman nggak kalau kirim invoice via WhatsApp?</span>
-                <span className="faq-toggle">+</span>
-              </div>
+              <div className="faq-q"><span>Aman nggak kalau kirim invoice via WhatsApp?</span><span className="faq-toggle">+</span></div>
               <div className="faq-a">Sangat aman. Tagiin kirim invoice sebagai gambar (bukan link), sehingga klien nggak perlu khawatir phishing. Pembayaran via QRIS resmi yang tidak bisa dipalsukan.</div>
             </div>
             <div className="faq-item" onClick={toggleFaq}>
-              <div className="faq-q">
-                <span>Kapan bisa mulai pakai?</span>
-                <span className="faq-toggle">+</span>
-              </div>
+              <div className="faq-q"><span>Kapan bisa mulai pakai?</span><span className="faq-toggle">+</span></div>
               <div className="faq-a">Sekarang! Daftar langsung di app.tagiin.id — gratis tanpa kartu kredit.</div>
             </div>
             <div className="faq-item" onClick={toggleFaq}>
-              <div className="faq-q">
-                <span>Apakah bisa untuk bisnis saya?</span>
-                <span className="faq-toggle">+</span>
-              </div>
+              <div className="faq-q"><span>Apakah bisa untuk bisnis saya?</span><span className="faq-toggle">+</span></div>
               <div className="faq-a">Tagiin didesain untuk freelancer, pelaku jasa (konsultan, desainer, fotografer, tutor), dan UMKM (katering, toko online, kontraktor kecil). Kalau kamu rutin kirim invoice ke klien, Tagiin cocok buat kamu.</div>
             </div>
           </div>
@@ -424,48 +325,9 @@ export default function Landing() {
         <h2>Siap <em>berhenti nagih</em><br />dan mulai dibayar?</h2>
         <p>Mulai gratis sekarang, upgrade kapan aja.</p>
         <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap', position: 'relative' }}>
-          
-            href="https://app.tagiin.id/login?plan=free"
-            style={{
-              textDecoration: 'none',
-              padding: '16px 36px',
-              background: 'white',
-              color: '#1a1814',
-              borderRadius: '100px',
-              fontSize: '16px',
-              fontWeight: 500,
-            }}
-          >
-            Mulai Gratis
-          </a>
-          
-            href="https://app.tagiin.id/login?plan=pro_flex"
-            style={{
-              textDecoration: 'none',
-              padding: '16px 36px',
-              background: '#f4a261',
-              color: 'white',
-              borderRadius: '100px',
-              fontSize: '16px',
-              fontWeight: 500,
-            }}
-          >
-            Mulai Pro Flex
-          </a>
-          
-            href="https://app.tagiin.id/login?plan=pro_plus"
-            style={{
-              textDecoration: 'none',
-              padding: '16px 36px',
-              background: '#d4471f',
-              color: 'white',
-              borderRadius: '100px',
-              fontSize: '16px',
-              fontWeight: 500,
-            }}
-          >
-            Mulai Pro+
-          </a>
+          <a href="https://app.tagiin.id/login?plan=free" style={{ textDecoration: 'none', padding: '16px 36px', background: 'white', color: '#1a1814', borderRadius: '100px', fontSize: '16px', fontWeight: 500 }}>Mulai Gratis</a>
+          <a href="https://app.tagiin.id/login?plan=pro_flex" style={{ textDecoration: 'none', padding: '16px 36px', background: '#f4a261', color: 'white', borderRadius: '100px', fontSize: '16px', fontWeight: 500 }}>Mulai Pro Flex</a>
+          <a href="https://app.tagiin.id/login?plan=pro_plus" style={{ textDecoration: 'none', padding: '16px 36px', background: '#d4471f', color: 'white', borderRadius: '100px', fontSize: '16px', fontWeight: 500 }}>Mulai Pro+</a>
         </div>
       </section>
 
@@ -483,23 +345,8 @@ export default function Landing() {
         </div>
       </footer>
 
-      {/* Toast */}
       {status !== 'idle' && status !== 'loading' && (
-        <div style={{
-          position: 'fixed',
-          bottom: '24px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          background: status === 'success' ? '#2f7a4f' : '#d4471f',
-          color: 'white',
-          padding: '14px 22px',
-          borderRadius: '12px',
-          zIndex: 1000,
-          fontSize: '14px',
-          fontWeight: 500,
-          boxShadow: '0 10px 30px rgba(0,0,0,0.2)',
-          maxWidth: 'calc(100vw - 48px)',
-        }}>
+        <div style={{ position: 'fixed', bottom: '24px', left: '50%', transform: 'translateX(-50%)', background: status === 'success' ? '#2f7a4f' : '#d4471f', color: 'white', padding: '14px 22px', borderRadius: '12px', zIndex: 1000, fontSize: '14px', fontWeight: 500, boxShadow: '0 10px 30px rgba(0,0,0,0.2)', maxWidth: 'calc(100vw - 48px)' }}>
           {message}
         </div>
       )}
